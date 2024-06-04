@@ -31,4 +31,5 @@ ENV PYTHONPATH=${APP_DIR}
 # Run dagster gRPC server on port 4000
 EXPOSE 4000
 
+LABEL org.opencontainers.image.source https://github.com/reinthal/swapi
 CMD ["dagster", "api", "grpc", "-h", "0.0.0.0", "-p", "4000", "-m", "swapi"]
