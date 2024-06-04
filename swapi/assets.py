@@ -11,25 +11,29 @@ def films() -> pd.DataFrame:
 
 @asset
 def stg_films(films,  duckdb: DuckDBResource) -> None:
-    duckdb.sql("CREATE TABLE stg_films AS SELECT * FROM films")
+    duckdb.create_resource
+    with duckdb.get_connection() as conn:
+        conn.sql("CREATE OR REPLACE TABLE stg_films AS SELECT * FROM films")
 
 @asset
 def stg_vehicles(vehicles,  duckdb: DuckDBResource) -> None:
-    duckdb.sql("CREATE TABLE stg_vehicles AS SELECT * FROM vehicles")
+    with duckdb.get_connection() as conn:
+        conn.sql("CREATE OR REPLACE TABLE stg_vehicles AS SELECT * FROM vehicles")
 
 @asset
 def stg_people(people,  duckdb: DuckDBResource) -> None:
-    duckdb.sql("CREATE TABLE stg_people AS SELECT * FROM people")
+    with duckdb.get_connection() as conn:
+        conn.sql("CREATE OR REPLACE TABLE stg_people AS SELECT * FROM people")
 
 @asset
 def vehicles() -> pd.DataFrame:
     response = requests.get('https://swapi.dev/api/vehicles/')
-    return response.json()
+    return pd.DataFrame(response.json()["results"])
 
 @asset
 def people() -> pd.DataFrame:
     response = requests.get('https://swapi.dev/api/people/')
-    return response.json()
+    return pd.DataFrame(response.json()["results"])
 
 @graph
 def star_wars_graph():
