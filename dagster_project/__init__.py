@@ -1,9 +1,12 @@
-from dagster import Definitions, load_assets_from_modules, EnvVar
+from dagster import Definitions, EnvVar, ExperimentalWarning
 from dagster_snowflake import SnowflakeResource
 
 from dagster_embedded_elt.dlt import DagsterDltResource
 
-from dagster_project.assets import swapi_assets
+from dagster_project.assets import swapi_assets, swapi_pipeline_upstream_asset
+
+import warnings
+warnings.filterwarnings("ignore", category=ExperimentalWarning)
 
 # Resources
 dlt_resource = DagsterDltResource()
@@ -17,7 +20,7 @@ snowflake_resource = SnowflakeResource(
         )
 
 # Assets
-all_assets = [swapi_assets]
+all_assets = [swapi_pipeline_upstream_asset, swapi_assets]
 
 # Definitions
 defs = Definitions(
