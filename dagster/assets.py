@@ -1,42 +1,25 @@
 
-import requests
-from dagster import asset, graph
-from dagster_duckdb import DuckDBResource
-import pandas as pd
+from dagster import AssetExecutionContext
+from dagster_embedded_elt.dlt import DagsterDltResource, dlt_assets
+from dlt import pipeline
+from data_sources.swapi import swapi
 
-# TODO: Verifiera att vi har data i snowflake
-# X TODO: Ta bort staging assets
-# TODO: Lägg till DLT
+dlt_resource = DagsterDltResource()
 
-
-
-@asset(
-    key_prefix=["raw_swapi"]
+@dlt_assets(
+    dlt_source=swapi(),
+    dlt_pipeline=pipeline(
+        pipeline_name="swapi",
+        destination="snowflake",
+        dataset_name="swapi",
+         progress="log",
+    ),
+    name="swapi",
+    group_name="swapi",
 )
-def films() -> pd.DataFrame:
-    response = requests.get('https://swapi.dev/api/films/')
-    return pd.DataFrame(response.json()["results"])
+def swapi_assets(context: AssetExecutionContext, dlt: DagsterDltResource):
+    yield from dlt.run(context=context)
 
-@asset(
-    key_prefix=["raw_swapi"]
-)
-def vehicles() -> pd.DataFrame:
-    response = requests.get('https://swapi.dev/api/vehicles/')
-    return pd.DataFrame(response.json()["results"])
 
-@asset(
-    key_prefix=["raw_swapi"]
-)
-def people() -> pd.DataFrame:
-    response = requests.get('https://swapi.dev/api/people/')
-    return pd.DataFrame(response.json()["results"])
-
-@graph
-def star_wars_graph():
-    films()
-    vehicles()
-    people()
-
-star_wars_job = star_wars_graph.to_job()
 
 
