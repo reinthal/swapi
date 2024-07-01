@@ -8,22 +8,30 @@ from rest_api import(
 )
 
 @dlt.source
-def film_source() -> Any:
+def swapi() -> Any:
     # Create a REST API configuration for the GitHub API
     # Use RESTAPIConfig to get autocompletion and type checking
+
     config: RESTAPIConfig = {
         "client": {
             "base_url": "https://swapi.dev/api/",
-              "paginator": "json_response"
-        },
-        "resources": [
-        {
-            "name": "films",
-            "endpoint": {
-                "data_selector": "results",
+            "paginator": "json_response"
             },
+        "resources": 
+        [
+        {
+        "name": "films",
+        "endpoint": {"data_selector": "results",},
+        },
+        {
+        "name": "vehicles",
+        "endpoint": {"data_selector": "results",},
+        },
+        {
+        "name": "people",
+        "endpoint": {"data_selector": "results",},
         }
-    ],
+        ],
     }
     yield from rest_api_resources(config)
 
@@ -31,12 +39,12 @@ def film_source() -> Any:
 def load_film() -> None:
 
     pipeline = dlt.pipeline(
-        pipeline_name="film",
+        pipeline_name="swapi_pipeline",
         destination="snowflake",
-        dataset_name="movies"
+        dataset_name="swapi"
     )
 
-    pipeline.run(film_source())
+    pipeline.run(swapi())
 
 
 if __name__ == "__main__":

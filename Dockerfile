@@ -23,7 +23,7 @@ ARG APP_DIR=/opt/dagster/app
 WORKDIR ${APP_DIR}
 
 # Copy only the things we need
-COPY swapi ${APP_DIR}/swapi
+COPY dagster ${APP_DIR}/dagster
 
 ENV PATH=${VIRTUAL_ENV}/bin:$PATH
 ENV PYTHONPATH=${APP_DIR}
@@ -31,5 +31,4 @@ ENV PYTHONPATH=${APP_DIR}
 # Run dagster gRPC server on port 4000
 EXPOSE 4000
 
-LABEL org.opencontainers.image.source https://github.com/reinthal/swapi
-CMD ["dagster", "api", "grpc", "-h", "0.0.0.0", "-p", "4000", "-m", "swapi"]
+CMD ["dagster", "api", "grpc", "-h", "0.0.0.0", "-p", "4000", "-m", "dagster"]
