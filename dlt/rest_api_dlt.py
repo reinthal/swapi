@@ -14,6 +14,7 @@ def film_source() -> Any:
     config: RESTAPIConfig = {
         "client": {
             "base_url": "https://swapi.dev/api/",
+              "paginator": "json_response"
         },
         "resources": [
         {
