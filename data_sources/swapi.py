@@ -6,8 +6,6 @@ from typing import Any
 
 @dlt.source
 def swapi() -> Any:
-    # Create a REST API configuration for the GitHub API
-    # Use RESTAPIConfig to get autocompletion and type checking
     base_url = "https://swapi.dev/api/"
     
     def _get_data(endpoint):

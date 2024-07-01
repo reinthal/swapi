@@ -3,10 +3,7 @@ from dlt import pipeline
 from dagster import AssetExecutionContext
 from dagster_embedded_elt.dlt import DagsterDltResource, dlt_assets
 
-
 from data_sources.swapi import swapi
-
-dlt_resource = DagsterDltResource()
 
 @dlt_assets(
     dlt_source=swapi(),
