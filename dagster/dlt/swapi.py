@@ -2,50 +2,40 @@ import dlt
 from dlt.sources.helpers import requests
 from typing import Any
 
-from rest_api import(
-    RESTAPIConfig,
-    rest_api_resources
-)
 
 @dlt.source
 def swapi() -> Any:
     # Create a REST API configuration for the GitHub API
     # Use RESTAPIConfig to get autocompletion and type checking
+    @dlt.resource
+    def films():
+        base_url = "https://swapi.dev/api/films"
+        response = requests.get(base_url)
+        response.raise_for_status()
 
-    config: RESTAPIConfig = {
-        "client": {
-            "base_url": "https://swapi.dev/api/",
-            "paginator": "json_response"
-            },
-        "resources": 
-        [
-        {
-        "name": "films",
-        "endpoint": {"data_selector": "results",},
-        },
-        {
-        "name": "vehicles",
-        "endpoint": {"data_selector": "results",},
-        },
-        {
-        "name": "people",
-        "endpoint": {"data_selector": "results",},
-        }
-        ],
-    }
-    yield from rest_api_resources(config)
+        return response.json()
+
+    @dlt.resource
+    def vehicles():
+        base_url = "https://swapi.dev/api/vehicles"
+        response = requests.get(base_url)
+        response.raise_for_status()
+        
+        return response.json()
+
+    @dlt.resource
+    def people():
+        base_url = "https://swapi.dev/api/people"
+        response = requests.get(base_url)
+        response.raise_for_status()
+
+        return response.json()
 
 
-def load_film() -> None:
-
-    pipeline = dlt.pipeline(
-        pipeline_name="swapi_pipeline",
-        destination="snowflake",
-        dataset_name="swapi"
-    )
-
-    pipeline.run(swapi())
+    yield films
+    yield vehicles
+    yield people
 
 
 if __name__ == "__main__":
-    load_film()
+    pass
