@@ -1,12 +1,13 @@
 from dagster import Definitions, load_assets_from_modules, EnvVar
-from dagster_snowflake import SnowflakeIOManager
+from dagster_snowflake import SnowflakeResource
+
 from dagster_embedded_elt.dlt import DagsterDltResource
 
 from dagster_project.assets import swapi_assets
 
 # Resources
 dlt_resource = DagsterDltResource()
-snowflake_resource = SnowflakeIOManager(
+snowflake_resource = SnowflakeResource(
             database=EnvVar("DESTINATION__SNOWFLAKE__CREDENTIALS__DATABASE"),
             account=EnvVar("DESTINATION__SNOWFLAKE__CREDENTIALS__HOST"),
             user=EnvVar("DESTINATION__SNOWFLAKE__CREDENTIALS__USERNAME"),
@@ -22,7 +23,7 @@ all_assets = [swapi_assets]
 defs = Definitions(
     assets=all_assets,
     resources={
-        "io_manager": snowflake_resource,
+        "snowflake": snowflake_resource,
         "dlt": dlt_resource,
     }
 )
