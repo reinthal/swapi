@@ -13,11 +13,14 @@ requests = "^2.32.3"
 dagster-snowflake-pandas = "0.23.10"
 dlt = {extras = ["snowflake"], version = "^0.4.12"}
 poetry-dotenv-plugin = "^0.1.0"
+enlighten = "^1.12.4"
 
 [tool.poetry.group.dev.dependencies]
 dagster-webserver = "~1.7.8"
 ipython = "^8.25.0"
 pandas = "^2.2.2"
+streamlit = "^1.36.0"
+jupyterlab = "^4.2.3"
 
 [build-system]
 requires = ["poetry-core"]
