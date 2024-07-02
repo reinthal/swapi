@@ -1,23 +1,7 @@
-from dagster import Definitions, EnvVar, ExperimentalWarning
-from dagster_snowflake import SnowflakeResource
+from dagster import Definitions
+from dagster_project.resources import snowflake_resource, dlt_resource
+from dagster_project.assets.swapi import swapi_assets, swapi_pipeline_upstream_asset
 
-from dagster_embedded_elt.dlt import DagsterDltResource
-
-from dagster_project.assets import swapi_assets, swapi_pipeline_upstream_asset
-
-import warnings
-warnings.filterwarnings("ignore", category=ExperimentalWarning)
-
-# Resources
-dlt_resource = DagsterDltResource()
-snowflake_resource = SnowflakeResource(
-            database=EnvVar("DESTINATION__SNOWFLAKE__CREDENTIALS__DATABASE"),
-            account=EnvVar("DESTINATION__SNOWFLAKE__CREDENTIALS__HOST"),
-            user=EnvVar("DESTINATION__SNOWFLAKE__CREDENTIALS__USERNAME"),
-            password=EnvVar("DESTINATION__SNOWFLAKE__CREDENTIALS__PASSWORD"),
-            role=EnvVar("DESTINATION__SNOWFLAKE__CREDENTIALS__ROLE"),
-            warehouse=EnvVar("DESTINATION__SNOWFLAKE__CREDENTIALS__WAREHOUSE"),
-        )
 
 # Assets
 all_assets = [swapi_pipeline_upstream_asset, swapi_assets]
