@@ -1,4 +1,5 @@
 ARG BASE_IMAGE=python:3.10.14
+ARG CODE_LOCATION_NAME=dagster_project
 # Build stage 1: Installing depedencies with Poetry
 FROM ${BASE_IMAGE} as builder
 
@@ -23,7 +24,7 @@ ARG APP_DIR=/opt/dagster/app
 WORKDIR ${APP_DIR}
 
 # Copy only the things we need
-COPY dagster ${APP_DIR}/dagster
+COPY ${CODE_LOCATION_NAME} ${APP_DIR}/${CODE_LOCATION_NAME}
 
 ENV PATH=${VIRTUAL_ENV}/bin:$PATH
 ENV PYTHONPATH=${APP_DIR}
@@ -31,4 +32,4 @@ ENV PYTHONPATH=${APP_DIR}
 # Run dagster gRPC server on port 4000
 EXPOSE 4000
 
-CMD ["dagster", "api", "grpc", "-h", "0.0.0.0", "-p", "4000", "-m", "dagster"]
+CMD ["dagster", "api", "grpc", "-h", "0.0.0.0", "-p", "4000", "-m", "dagster_project"]
