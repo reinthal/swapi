@@ -1,8 +1,10 @@
 keys:
   - &bob age18g93tkrhudw7flaf6uzr664knn7xnec7p2kh7nyy8x3kud3zmv2qm32cna
+  - &alice age1rktgpvuzkq47s89sncwf94d8gpqe9y59gm6gjsla2m48eqrt7y2sg4w0cx
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
       - age:
           - *bob
+          - *alice
 
