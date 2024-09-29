@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "swapi"
+version = "0.1.0"
+description = ""
+authors = ["Alexander Reinthal <reinthal@pm.me>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.10,<3.12"
+dagster = "~1.7.12"
+requests = "^2.32.3"
+dagster-snowflake-pandas = "^0.23.12"
+dlt = {extras = ["snowflake"], version = "^0.4.12"}
+poetry-dotenv-plugin = "^0.1.0"
+enlighten = "^1.12.4"
+dagster-embedded-elt = "^0.23.12"
+
+[tool.poetry.group.dev.dependencies]
+dagster-webserver = "~1.7.12"
+ipython = "^8.25.0"
+pandas = "^2.2.2"
+streamlit = "^1.36.0"
+jupyterlab = "^4.2.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.dagster]
+module_name = "swapi"
